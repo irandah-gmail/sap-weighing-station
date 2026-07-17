@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { WeighingService, WeighingTransaction, WeightReading } from '../../services/weighing.service';
 
 @Component({
   selector: 'app-weighing-form',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './weighing-form.component.html',
   styleUrls: ['./weighing-form.component.css']
 })
