@@ -31,13 +31,13 @@ export interface WeighingTransaction {
   sapReference?: string;
 }
 
-
+https://sap-weighing-station-production.up.railway.app
 
 
 @Injectable({ providedIn: 'root' })
 export class WeighingService {
 
-  private baseUrl = 'https://sap-weighing-station-backend-production.up.railway.app'; // ← ADD THIS
+  private baseUrl = 'https://sap-weighing-station-production.up.railway.app'; // ← ADD THIS
 
   constructor(private http: HttpClient) {}
 
