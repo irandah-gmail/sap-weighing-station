@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { WeighingService, WeighingTransaction, WeightReading } from '../../services/weighing.service';
 
 @Component({
   selector: 'app-weighing-form',
   templateUrl: './weighing-form.component.html',
-  styleUrls: ['./weighing-form.component.css']
+  styleUrls: ['./weighing-form.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class WeighingFormComponent implements OnInit, OnDestroy {
 
@@ -116,3 +120,4 @@ export class WeighingFormComponent implements OnInit, OnDestroy {
     return this.recentTransactions.filter(t => t.status !== 'SENT').length;
   }
 }
+
