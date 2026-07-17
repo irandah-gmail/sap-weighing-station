@@ -31,7 +31,7 @@ export interface WeighingTransaction {
   sapReference?: string;
 }
 
-https://sap-weighing-station-production.up.railway.app
+
 
 
 @Injectable({ providedIn: 'root' })
