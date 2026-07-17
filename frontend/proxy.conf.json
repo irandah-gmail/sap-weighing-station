@@ -1,7 +1,8 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
-    "secure": false,
+    "target": "https://sap-weighing-station.up.railway.app",
+    "secure": true,
     "changeOrigin": true
   }
 }
+
