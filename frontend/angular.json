@@ -15,12 +15,22 @@
             "outputPath": "../backend/src/main/resources/static",
             "index": "src/index.html",
             "main": "src/main.ts",
+			"polyfills": [
+    "zone.js"
+  ],
             "tsConfig": "tsconfig.app.json",
             "assets": [],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            },
             "production": {
               "outputHashing": "none"
             }
@@ -28,18 +38,23 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
+            "development": {
+              "browserTarget": "weighing-station-ui:build:development"
+            },
             "production": {
               "browserTarget": "weighing-station-ui:build:production"
-            },
-            "development": {
-              "browserTarget": "weighing-station-ui:build",
-              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
