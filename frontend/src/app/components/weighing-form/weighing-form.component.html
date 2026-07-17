@@ -1,0 +1,74 @@
+<div class="station">
+
+  <header>
+    <h1>Weighing Station</h1>
+    <span class="sync-badge" [class.warn]="pendingCount > 0">
+      {{ pendingCount }} pending sync
+    </span>
+  </header>
+
+  <section class="scale-panel">
+    <div class="weight-display" [class.unstable]="currentWeight && !currentWeight.stable">
+      <span class="value">{{ currentWeight?.weight ?? '---' }}</span>
+      <span class="unit">{{ currentWeight?.unit ?? '' }}</span>
+    </div>
+    <div class="scale-status">
+      {{ currentWeight?.stable ? 'Stable reading' : 'Settling…' }}
+    </div>
+    <button class="capture-btn" (click)="captureReading()" [disabled]="!currentWeight">
+      Capture reading
+    </button>
+  </section>
+
+  <section class="readings-panel" *ngIf="capturedReadings.length > 0">
+    <h3>Captured weighments</h3>
+    <ul>
+      <li *ngFor="let r of capturedReadings; let i = index">
+        {{ r }} {{ currentWeight?.unit }}
+        <button class="remove-btn" (click)="removeReading(i)">✕</button>
+      </li>
+    </ul>
+    <div class="total">Total: <strong>{{ totalWeight }} {{ currentWeight?.unit }}</strong></div>
+  </section>
+
+  <section class="entry-panel">
+    <label>
+      Production Order ID
+      <input type="text" [(ngModel)]="productionOrderId" placeholder="Scan or enter" />
+    </label>
+    <label>
+      Batch ID
+      <input type="text" [(ngModel)]="batchId" placeholder="Scan or enter" />
+    </label>
+    <label>
+      User ID
+      <input type="text" [(ngModel)]="userId" placeholder="Operator ID" />
+    </label>
+
+    <button class="submit-btn" (click)="submit()" [disabled]="!canSubmit">
+      {{ submitting ? 'Sending…' : 'Submit weighing' }}
+    </button>
+
+    <div class="status-message" *ngIf="statusMessage" [class.error]="statusIsError">
+      {{ statusMessage }}
+    </div>
+  </section>
+
+  <section class="recent-panel">
+    <h3>Recent transactions</h3>
+    <table>
+      <thead>
+        <tr><th>Order</th><th>Batch</th><th>Weight</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of recentTransactions">
+          <td>{{ t.productionOrderId }}</td>
+          <td>{{ t.batchId }}</td>
+          <td>{{ t.totalWeight }} {{ t.unit }}</td>
+          <td [class]="'status-' + t.status.toLowerCase()">{{ t.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>

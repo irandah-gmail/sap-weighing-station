@@ -1,0 +1,104 @@
+.station {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+h1 { font-size: 1.6rem; margin: 0; }
+
+.sync-badge {
+  background: #2e7d32;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+.sync-badge.warn { background: #c9531e; }
+
+.scale-panel {
+  background: #263140;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.weight-display {
+  font-size: 4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.weight-display.unstable { color: #f2b134; }
+.weight-display .unit { font-size: 1.5rem; margin-left: 8px; opacity: 0.7; }
+
+.scale-status { opacity: 0.6; margin: 4px 0 16px; }
+
+.capture-btn, .submit-btn {
+  background: #3a7bd5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+}
+.capture-btn:disabled, .submit-btn:disabled {
+  background: #4a5568;
+  cursor: not-allowed;
+}
+
+.readings-panel, .entry-panel, .recent-panel {
+  background: #263140;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.readings-panel ul { list-style: none; padding: 0; margin: 0 0 12px; }
+.readings-panel li {
+  display: flex; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid #37455a;
+}
+.remove-btn {
+  background: none; border: none; color: #e05c5c; cursor: pointer; font-size: 1rem;
+}
+.total { font-size: 1.2rem; text-align: right; }
+
+.entry-panel label {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+.entry-panel input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #37455a;
+  background: #1c2530;
+  color: #eef2f7;
+  font-size: 1.1rem;
+}
+
+.status-message {
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #234d2e;
+}
+.status-message.error { background: #5c2a24; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #37455a; font-size: 0.9rem; }
+.status-sent { color: #57c26a; }
+.status-pending { color: #e0b64a; }
+.status-failed { color: #e05c5c; }
