@@ -31,20 +31,25 @@ export interface WeighingTransaction {
   sapReference?: string;
 }
 
+
+
+
 @Injectable({ providedIn: 'root' })
 export class WeighingService {
+
+  private baseUrl = 'https://sap-weighing-station-backend-production.up.railway.app'; // ← ADD THIS
 
   constructor(private http: HttpClient) {}
 
   getCurrentWeight(): Observable<WeightReading> {
-    return this.http.get<WeightReading>('/api/weight');
+    return this.http.get<WeightReading>(`${this.baseUrl}/api/weight`); // ← CHANGE THIS
   }
 
   submitTransaction(request: WeighingSubmitRequest): Observable<WeighingTransaction> {
-    return this.http.post<WeighingTransaction>('/api/transactions', request);
+    return this.http.post<WeighingTransaction>(`${this.baseUrl}/api/transactions`, request); // ← CHANGE THIS
   }
 
   getRecentTransactions(): Observable<WeighingTransaction[]> {
-    return this.http.get<WeighingTransaction[]>('/api/transactions/recent');
+    return this.http.get<WeighingTransaction[]>(`${this.baseUrl}/api/transactions/recent`); // ← CHANGE THIS
   }
 }
