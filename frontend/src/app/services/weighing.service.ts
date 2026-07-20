@@ -38,7 +38,7 @@ export interface WeighingTransaction {
 export class WeighingService {
 
   //private baseUrl = 'http://localhost:8080'; // ← ADD THIS
-  private baseUrl = 'https://sap-weighing-station-frontend-production.up.railway.app/'; // ← ADD THIS
+  private baseUrl = 'https://sap-weighing-station-frontend-production.up.railway.app'; // ← ADD THIS
 
   constructor(private http: HttpClient) {}
 
