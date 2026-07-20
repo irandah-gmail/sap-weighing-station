@@ -22,15 +22,52 @@ export class WeighingFormComponent implements OnInit, OnDestroy {
   statusMessage = '';
   statusIsError = false;
 
+  // Track which transactions are currently being resent
+  resendingIds: Set<number> = new Set<number>();
+
   private pollSub?: Subscription;
   private listSub?: Subscription;
 
   constructor(private weighingService: WeighingService) {}
 
   clearFailed(tx: WeighingTransaction): void {
+    // kept for backward compatibility (calls clearFailed then refreshes)
     this.weighingService.clearFailedTransaction(tx.id).subscribe({
       next: (updated) => this.refreshRecent(),
       error: () => { /* ignore transient errors; could show toast */ }
+    });
+  }
+
+  resendFailed(tx: WeighingTransaction): void {
+    // mark as resending in UI and disable the button
+    this.resendingIds.add(tx.id);
+    // Optimistically show resending in the UI by leaving tx.status unchanged but UI will read resendingIds
+    this.weighingService.resendFailedTransaction(tx.id).subscribe({
+      next: (updated) => {
+        // update local transaction with returned state
+        const idx = this.recentTransactions.findIndex(t => t.id === tx.id);
+        if (idx !== -1 && updated) {
+          this.recentTransactions[idx] = updated;
+        }
+        // remove resending flag (will re-enable buttons if FAILED)
+        this.resendingIds.delete(tx.id);
+      },
+      error: () => {
+        // on error, mark as failed and re-enable button
+        const idx = this.recentTransactions.findIndex(t => t.id === tx.id);
+        if (idx !== -1) {
+          this.recentTransactions[idx].status = 'FAILED';
+        }
+        this.resendingIds.delete(tx.id);
+      }
+    });
+  }
+
+  deleteFailed(tx: WeighingTransaction): void {
+    if (!confirm('Delete this FAILED transaction from the database? This cannot be undone.')) return;
+    this.weighingService.deleteFailedTransaction(tx.id).subscribe({
+      next: () => this.refreshRecent(),
+      error: () => { alert('Could not delete transaction. It must be in FAILED state.'); }
     });
   }
 

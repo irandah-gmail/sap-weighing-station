@@ -37,7 +37,8 @@ export interface WeighingTransaction {
 @Injectable({ providedIn: 'root' })
 export class WeighingService {
 
-  private baseUrl = 'https://sap-weighing-station-production.up.railway.app'; // ← ADD THIS
+  //private baseUrl = 'http://localhost:8080'; // ← ADD THIS
+  private baseUrl = 'https://sap-weighing-station-frontend-production.up.railway.app/'; // ← ADD THIS
 
   constructor(private http: HttpClient) {}
 
@@ -56,5 +57,15 @@ export class WeighingService {
   /** Clear FAILED status on a transaction so it can be retried */
   clearFailedTransaction(id: number): Observable<WeighingTransaction> {
     return this.http.post<WeighingTransaction>(`${this.baseUrl}/api/transactions/${id}/clear-failed`, {});
+  }
+
+  /** Resend a failed transaction immediately */
+  resendFailedTransaction(id: number): Observable<WeighingTransaction> {
+    return this.http.post<WeighingTransaction>(`${this.baseUrl}/api/transactions/${id}/resend`, {});
+  }
+
+  /** Delete a failed transaction from the backend */
+  deleteFailedTransaction(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/transactions/${id}`);
   }
 }

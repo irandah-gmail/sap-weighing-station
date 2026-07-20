@@ -39,4 +39,19 @@ public class TransactionController {
         if (tx == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found");
         return tx;
     }
+
+    /** Resend immediately: reset state and attempt to send right away. */
+    @PostMapping("/{id}/resend")
+    public WeighingTransaction resendFailed(@PathVariable Long id) {
+        WeighingTransaction tx = transactionService.resendFailed(id);
+        if (tx == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found");
+        return tx;
+    }
+
+    /** Delete a FAILED transaction from the DB. */
+    @DeleteMapping("/{id}")
+    public void deleteIfFailed(@PathVariable Long id) {
+        boolean deleted = transactionService.deleteIfFailed(id);
+        if (!deleted) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Can only delete transactions in FAILED state or transaction not found");
+    }
 }

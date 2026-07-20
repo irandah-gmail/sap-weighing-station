@@ -65,9 +65,12 @@
           <td>{{ t.productionOrderId }}</td>
           <td>{{ t.batchId }}</td>
           <td>{{ t.totalWeight }} {{ t.unit }}</td>
-          <td [class]="'status-' + t.status.toLowerCase()">
-            {{ t.status }}
-            <button *ngIf="t.status === 'FAILED'" class="clear-btn" (click)="clearFailed(t)">Clear</button>
+          <td [class]="'status-' + (resendingIds.has(t.id) ? 'resending' : t.status.toLowerCase())">
+            <!-- Show RESENDING while resend is in progress, else map SENT to SUCCESS for display -->
+            {{ resendingIds.has(t.id) ? 'RESENDING' : (t.status === 'SENT' ? 'SUCCESS' : t.status) }}
+
+            <!-- Delete button for FAILED rows; Resend button is hidden per preference -->
+            <button *ngIf="t.status === 'FAILED'" class="delete-btn" (click)="deleteFailed(t)">Delete</button>
           </td>
         </tr>
       </tbody>

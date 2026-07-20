@@ -102,3 +102,25 @@ th, td { text-align: left; padding: 8px; border-bottom: 1px solid #37455a; font-
 .status-sent { color: #57c26a; }
 .status-pending { color: #e0b64a; }
 .status-failed { color: #e05c5c; }
+
+/* Blue, prominent Delete button for FAILED rows */
+.delete-btn {
+  background: linear-gradient(180deg, #3a7bd5 0%, #1e66c8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.delete-btn:hover {
+  box-shadow: 0 4px 12px rgba(30,102,200,0.25);
+}
+.delete-btn:active {
+  transform: translateY(1px);
+}
+.delete-btn:focus {
+  outline: 2px solid rgba(58,123,213,0.25);
+  outline-offset: 2px;
+}

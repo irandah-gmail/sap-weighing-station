@@ -86,4 +86,35 @@ public class TransactionService {
             return tx;
         }).orElse(null);
     }
+
+    /**
+     * Resend a FAILED transaction: reset state and attempt to send immediately.
+     */
+    public WeighingTransaction resendFailed(Long id) {
+        return repository.findById(id).map(tx -> {
+            if (tx.getStatus() == TransactionStatus.FAILED) {
+                tx.setStatus(TransactionStatus.PENDING);
+                tx.setLastError(null);
+                tx.setRetryCount(0);
+                repository.save(tx);
+                // attempt send immediately (attemptSend saves again)
+                attemptSend(tx);
+            }
+            return tx;
+        }).orElse(null);
+    }
+
+    /**
+     * Delete a transaction only if it's in FAILED state. Returns true when deleted.
+     */
+    public boolean deleteIfFailed(Long id) {
+        return repository.findById(id).map(tx -> {
+            if (tx.getStatus() == TransactionStatus.FAILED) {
+                repository.delete(tx);
+                return true;
+            }
+            return false;
+        }).orElse(false);
+    }
 }
+
