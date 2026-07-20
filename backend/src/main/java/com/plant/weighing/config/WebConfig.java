@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/api/**")
             .allowedOrigins(
             "http://localhost:4200",
-            "https://sap-weighing-station-production.up.railway.app/"
+            "https://sap-weighing-station-frontend-production.up.railway.app"
         )
         .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
