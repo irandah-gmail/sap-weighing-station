@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -28,5 +30,13 @@ public class TransactionController {
     @GetMapping("/recent")
     public List<WeighingTransaction> recent() {
         return transactionService.recent();
+    }
+
+    /** Clear the FAILED status on a transaction so it can be retried. */
+    @PostMapping("/{id}/clear-failed")
+    public WeighingTransaction clearFailed(@PathVariable Long id) {
+        WeighingTransaction tx = transactionService.clearFailed(id);
+        if (tx == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found");
+        return tx;
     }
 }

@@ -52,4 +52,9 @@ export class WeighingService {
   getRecentTransactions(): Observable<WeighingTransaction[]> {
     return this.http.get<WeighingTransaction[]>(`${this.baseUrl}/api/transactions/recent`); // ← CHANGE THIS
   }
+
+  /** Clear FAILED status on a transaction so it can be retried */
+  clearFailedTransaction(id: number): Observable<WeighingTransaction> {
+    return this.http.post<WeighingTransaction>(`${this.baseUrl}/api/transactions/${id}/clear-failed`, {});
+  }
 }

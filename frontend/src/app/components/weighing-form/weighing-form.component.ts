@@ -27,6 +27,13 @@ export class WeighingFormComponent implements OnInit, OnDestroy {
 
   constructor(private weighingService: WeighingService) {}
 
+  clearFailed(tx: WeighingTransaction): void {
+    this.weighingService.clearFailedTransaction(tx.id).subscribe({
+      next: (updated) => this.refreshRecent(),
+      error: () => { /* ignore transient errors; could show toast */ }
+    });
+  }
+
   ngOnInit(): void {
     // Poll the live scale reading every second
     this.pollSub = interval(1000).subscribe(() => {

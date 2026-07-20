@@ -70,4 +70,20 @@ public class TransactionService {
     public List<WeighingTransaction> pendingOrFailed() {
         return repository.findByStatusIn(List.of(TransactionStatus.PENDING, TransactionStatus.FAILED));
     }
+
+    /**
+     * Clear a transaction that previously failed so it can be retried.
+     * This sets the status back to PENDING, clears the last error and resets retry count.
+     */
+    public WeighingTransaction clearFailed(Long id) {
+        return repository.findById(id).map(tx -> {
+            if (tx.getStatus() == TransactionStatus.FAILED) {
+                tx.setStatus(TransactionStatus.PENDING);
+                tx.setLastError(null);
+                tx.setRetryCount(0);
+                repository.save(tx);
+            }
+            return tx;
+        }).orElse(null);
+    }
 }

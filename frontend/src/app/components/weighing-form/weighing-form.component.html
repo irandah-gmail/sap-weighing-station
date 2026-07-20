@@ -65,7 +65,10 @@
           <td>{{ t.productionOrderId }}</td>
           <td>{{ t.batchId }}</td>
           <td>{{ t.totalWeight }} {{ t.unit }}</td>
-          <td [class]="'status-' + t.status.toLowerCase()">{{ t.status }}</td>
+          <td [class]="'status-' + t.status.toLowerCase()">
+            {{ t.status }}
+            <button *ngIf="t.status === 'FAILED'" class="clear-btn" (click)="clearFailed(t)">Clear</button>
+          </td>
         </tr>
       </tbody>
     </table>
